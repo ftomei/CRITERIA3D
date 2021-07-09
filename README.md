@@ -11,7 +11,8 @@ Dependencies:
 - [Qt libraries](https://www.qt.io/download-qt-installer): Qt 5.x or following is needed (download also QtCharts).
 
 Build:
-- Build the project *bin/Makeall_CRITERIA3D/Makeall_CRITERIA3D.pro* With Qt Creator.
+- Build first the project *MapGraphics/MapGraphics.pro* With Qt Creator
+- then the project *bin/Makeall_CRITERIA3D/Makeall_CRITERIA3D.pro*
 
 Warning: deselect the flag 'Shadow build' in 'Build settings' of the Qt Creator, for both the projects *MapGraphics.pro* and *Makeall_CRITERIA3D.pro*
 
