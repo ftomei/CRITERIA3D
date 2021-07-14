@@ -783,6 +783,38 @@ int CriteriaOutputProject::createAggregationFile()
 }
 
 
+bool CriteriaOutputProject::convertShapeToNetcdf(Crit3DShapeHandler &shape, QString outputFileName, QString field, double cellSize)
+{
+    if (! shape.getIsWGS84())
+    {
+        projectError = "Shapefile is not WGS84.";
+        return false;
+    }
+
+    // rasterize shape
+    gis::Crit3DRasterGrid *myRaster = new gis::Crit3DRasterGrid();
+    if (! rasterizeShape(shape, *myRaster, field.toStdString(), cellSize))
+    {
+        projectError = "Error in rasterize shape.";
+        return false;
+    }
+    gis::updateMinMaxRasterGrid(myRaster);
+
+    // set UTM zone and emisphere
+    gis::Crit3DGisSettings gisSettings;
+    gisSettings.utmZone = shape.getUtmZone();
+    double sign = 1;
+    if (! shape.getIsNorth()) sign = -1;
+    gisSettings.startLocation.latitude = sign * abs(gisSettings.startLocation.latitude);
+
+    // convert to lat lon grid
+    gis::Crit3DGridHeader latLonHeader;
+    gis::getGeoExtentsFromUTMHeader(gisSettings, myRaster->header, &latLonHeader);
+
+    return true;
+}
+
+
 bool CriteriaOutputProject::initializeCsvOutputFile()
 {
     // parse output variables

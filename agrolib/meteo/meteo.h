@@ -29,6 +29,8 @@
     #define DEFAULT_WIND_INTENSITY 2.0f
     #define DEFAULT_AUTOMATIC_TMED true
     #define DEFAULT_AUTOMATIC_ET0HS true
+    #define DDHEATING_THRESHOLD 20
+    #define DDCOOLING_THRESHOLD 25
 
     #define TABLE_METEO_POINTS "point_properties"
     #define FIELD_METEO_POINT "id_point"
@@ -91,7 +93,7 @@
                     dailyWindVectorIntensityAvg, dailyWindVectorIntensityMax, dailyWindVectorDirectionPrevailing, dailyWindScalarIntensityAvg, dailyWindScalarIntensityMax,
                     leafWetness, dailyLeafWetness, atmPressure,
                     referenceEvapotranspiration, dailyReferenceEvapotranspirationHS, dailyReferenceEvapotranspirationPM, actualEvaporation,
-                    dailyBIC,
+                    dailyBIC, dailyHeatingDegreeDays, dailyCoolingDegreeDays,
                     dailyWaterTableDepth,
                     anomaly, noMeteoTerrain, noMeteoVar};
 
@@ -126,6 +128,8 @@
       { "DAILY_DIFFUSE_RAD", dailyDiffuseRadiation },
       { "DAILY_REFLEC_RAD", dailyReflectedRadiation },
       { "DAILY_BIC", dailyBIC },
+      { "DAILY_DEGREEDAYS_HEATING", dailyHeatingDegreeDays },
+      { "DAILY_DEGREEDAYS_COOLING", dailyCoolingDegreeDays },
       { "DAILY_WATER_TABLE_DEPTH", dailyWaterTableDepth }
     };
 
@@ -159,6 +163,8 @@
       { dailyDiffuseRadiation, "DAILY_DIFFUSE_RAD" },
       { dailyReflectedRadiation, "DAILY_REFLEC_RAD" },
       { dailyBIC, "DAILY_BIC" },
+      { dailyHeatingDegreeDays, "DAILY_DEGREEDAYS_HEATING" },
+      { dailyCoolingDegreeDays, "DAILY_DEGREEDAYS_COOLING" },
       { dailyWaterTableDepth, "DAILY_WATER_TABLE_DEPTH" }
     };
 

@@ -109,6 +109,7 @@ public:
     bool getDbDataDates(QDate* firstDate, QDate* lastDate, QString &projectError);
     int createCsvFileFromGUI(QDate dateComputation, QString csvFileName);
     int createShapeFileFromGUI();
+    bool convertShapeToNetcdf(Crit3DShapeHandler &shape, QString outputFileName, QString field, double cellSize);
 
 };
 

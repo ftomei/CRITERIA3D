@@ -160,3 +160,23 @@ bool fillRasterWithField(gis::Crit3DRasterGrid &raster, Crit3DShapeHandler &shap
     return true;
 }
 
+
+bool rasterizeShape(Crit3DShapeHandler &shape, gis::Crit3DRasterGrid &newRaster, std::string field, double cellSize)
+{
+    if (! initializeRasterFromShape(shape, newRaster, cellSize))
+        return false;
+
+    if (field == "Shape ID")
+    {
+        if (! fillRasterWithShapeNumber(newRaster, shape))
+            return false;
+    }
+    else
+    {
+        if (! fillRasterWithField(newRaster, shape, field))
+            return false;
+    }
+
+    return true;
+}
+

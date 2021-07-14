@@ -47,6 +47,8 @@
         float globRad;
         float et0_hs;
         float et0_pm;
+        float dd_heating;
+        float dd_cooling;
         float windVecIntAvg;
         float windVecIntMax;
         float windScalIntAvg;

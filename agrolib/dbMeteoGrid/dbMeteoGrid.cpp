@@ -435,6 +435,8 @@ void Crit3DMeteoGridDbHandler::initMapMySqlVarType()
     _mapDailyMySqlVarType[dailyWindVectorDirectionPrevailing] = "smallint(3) UNSIGNED";
     _mapDailyMySqlVarType[dailyReferenceEvapotranspirationHS] = "float(3,1) UNSIGNED";
     _mapDailyMySqlVarType[dailyReferenceEvapotranspirationPM] = "float(3,1) UNSIGNED";
+    _mapDailyMySqlVarType[dailyHeatingDegreeDays] = "float(3,1) UNSIGNED";
+    _mapDailyMySqlVarType[dailyCoolingDegreeDays] = "float(3,1) UNSIGNED";
     _mapDailyMySqlVarType[dailyLeafWetness] = "tinyint(3) UNSIGNED";
     _mapDailyMySqlVarType[dailyWaterTableDepth] = "tinyint(3) UNSIGNED";
 

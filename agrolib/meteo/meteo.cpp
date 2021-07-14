@@ -961,6 +961,7 @@ meteoVariable updateMeteoVariable(meteoVariable myVar, frequencyType myFreq)
 
         else if (myVar == referenceEvapotranspiration)
             return dailyReferenceEvapotranspirationHS;
+
         else
             return noMeteoVar;
     }

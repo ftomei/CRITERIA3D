@@ -246,6 +246,8 @@ bool Crit3DShapeHandler::setUTMzone(std::string prjFileName)
                 std::size_t foundEnd = line.find(separator);
                 std::string utm = line.substr(start, foundEnd-1-start);
                 m_utmZone = std::stoi(utm);
+                std::string emisphere = utm.substr(utm.length()-1, utm.length()-1);
+                m_isNorth = (emisphere == "N");
                 prjFile.close();
                 return true;
             }
@@ -382,6 +384,11 @@ DBFFieldType Crit3DShapeHandler::getFieldType(int fieldPos)
 bool Crit3DShapeHandler::getIsWGS84() const
 {
     return m_isWGS84;
+}
+
+bool Crit3DShapeHandler::getIsNorth() const
+{
+    return m_isNorth;
 }
 
 int Crit3DShapeHandler::getUtmZone() const
