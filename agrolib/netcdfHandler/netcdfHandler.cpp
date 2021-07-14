@@ -802,7 +802,7 @@ bool NetCDFHandler::writeGeoDimensions(const gis::Crit3DGridHeader& latLonHeader
 //    if (status != NC_NOERR) return false;
 
     // no data
-    float missing[] = {float(NODATA)};
+    float missing[] = {latLonHeader.flag};
     status = nc_put_att_float(ncId, variables[0].id, "missing_value", NC_FLOAT, 1, missing);
     if (status != NC_NOERR) return false;
 

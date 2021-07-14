@@ -55,7 +55,7 @@ HEADERS += \
 
 
 INCLUDEPATH +=  ../crit3dDate ../mathFunctions ../crop ../gis \
-                ../utilities ../shapeHandler ../shapeUtilities
+                ../utilities ../shapeHandler ../netcdfHandler ../shapeUtilities
 
 # comment to compile without GDAL library
 CONFIG += GDAL

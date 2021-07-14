@@ -10,6 +10,7 @@
 #include "shapeToRaster.h"
 #include "zonalStatistic.h"
 #include "computationUnitsDb.h"
+#include "netcdfHandler.h"
 
 #ifdef GDAL
     #include "gdalShapeFunctions.h"
@@ -792,13 +793,12 @@ bool CriteriaOutputProject::convertShapeToNetcdf(Crit3DShapeHandler &shape, QStr
     }
 
     // rasterize shape
-    gis::Crit3DRasterGrid *myRaster = new gis::Crit3DRasterGrid();
-    if (! rasterizeShape(shape, *myRaster, field.toStdString(), cellSize))
+    gis::Crit3DRasterGrid myRaster;
+    if (! rasterizeShape(shape, myRaster, field.toStdString(), cellSize))
     {
         projectError = "Error in rasterize shape.";
         return false;
     }
-    gis::updateMinMaxRasterGrid(myRaster);
 
     // set UTM zone and emisphere
     gis::Crit3DGisSettings gisSettings;
@@ -807,9 +807,49 @@ bool CriteriaOutputProject::convertShapeToNetcdf(Crit3DShapeHandler &shape, QStr
     if (! shape.getIsNorth()) sign = -1;
     gisSettings.startLocation.latitude = sign * abs(gisSettings.startLocation.latitude);
 
-    // convert to lat lon grid
+    // convert to lat lon raster
     gis::Crit3DGridHeader latLonHeader;
-    gis::getGeoExtentsFromUTMHeader(gisSettings, myRaster->header, &latLonHeader);
+    gis::getGeoExtentsFromUTMHeader(gisSettings, myRaster.header, &latLonHeader);
+
+    gis::Crit3DRasterGrid latLonRaster;
+    latLonRaster.initializeGrid(latLonHeader);
+
+    // assign lat lon values
+    double lat, lon, x, y;
+    int utmRow, utmCol;
+    for (int row = 0; row < latLonHeader.nrRows; row++)
+    {
+        for (int col = 0; col < latLonHeader.nrCols; col++)
+        {
+            gis::getLatLonFromRowCol(latLonHeader, row, col, &lat, &lon);
+            gis::latLonToUtmForceZone(gisSettings.utmZone, lat, lon, &x, &y);
+            if (! gis::isOutOfGridXY(x, y, myRaster.header))
+            {
+                gis::getRowColFromXY(*(myRaster.header), x, y, &utmRow, &utmCol);
+                float value = myRaster.getValueFromRowCol(utmRow, utmCol);
+                if (value != myRaster.header->flag)
+                {
+                    latLonRaster.value[row][col] = value;
+                }
+            }
+        }
+    }
+
+    // create netcdf
+    NetCDFHandler myNetCDF;
+    myNetCDF.createNewFile(outputFileName.toStdString());
+
+    if (! myNetCDF.writeGeoDimensions(latLonHeader))
+    {
+        projectError = "Error in write dimensions to netcdf.";
+        return false;
+    }
+
+    if (! myNetCDF.writeData_NoTime(latLonRaster))
+    {
+        projectError = "Error in write data to netcdf.";
+        return false;
+    }
 
     return true;
 }

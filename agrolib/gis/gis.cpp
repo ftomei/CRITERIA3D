@@ -236,7 +236,18 @@ namespace gis
         this->clear();
 
         *(this->header) = initHeader;
-        //this->colorScale = new Crit3DColorScale();
+
+        return this->initializeGrid(this->header->flag);
+    }
+
+
+    bool Crit3DRasterGrid::initializeGrid(const Crit3DGridHeader& latlonHeader)
+    {
+        this->clear();
+
+        Crit3DRasterHeader initHeader;
+        initHeader.convertFromLatLon(latlonHeader);
+        *(this->header) = initHeader;
 
         return this->initializeGrid(this->header->flag);
     }
@@ -256,7 +267,6 @@ namespace gis
         this->clear();
 
         *(this->header) = *(initGrid.header);
-        //*(this->colorScale) = *(initGrid.colorScale);
 
         return this->initializeGrid(initValue);
     }
