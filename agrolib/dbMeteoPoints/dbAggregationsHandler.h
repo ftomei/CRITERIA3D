@@ -36,6 +36,8 @@
         bool loadVariableProperties();
         int getIdfromMeteoVar(meteoVariable meteoVar);
         QList<QString> getAggregations();
+        bool writeRasterName(QString rasterName);
+        bool getRasterName(QString* rasterName);
 
     private:
         QSqlDatabase _db;

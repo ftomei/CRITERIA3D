@@ -172,6 +172,11 @@ bool Crit1DProject::readSettings()
         if (isSeasonalForecast)
         {
             firstSeasonMonth = projectSettings->value("firstMonth", 0).toInt();
+            if (firstSeasonMonth == 0)
+            {
+                projectError = "Missing firstSeasonMonth.";
+                return false;
+            }
         }
         if ((isShortTermForecast && isMonthlyForecast)
             || (isShortTermForecast && isSeasonalForecast)
@@ -335,7 +340,14 @@ void Crit1DProject::checkSimulationDates()
     }
 
     logger.writeInfo("Last simulation date: " + dateStr);
-    logger.writeInfo("Nr of forecast days: " + QString::number(daysOfForecast));
+    if (isSeasonalForecast)
+    {
+        logger.writeInfo("first forecast month: " + QString::number(firstSeasonMonth));
+    }
+    else
+    {
+        logger.writeInfo("Nr of forecast days: " + QString::number(daysOfForecast));
+    }
 }
 
 

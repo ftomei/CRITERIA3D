@@ -85,6 +85,50 @@ bool Crit3DAggregationsDbHandler::writeAggregationZonesTable(QString name, QStri
 
 }
 
+bool Crit3DAggregationsDbHandler::writeRasterName(QString rasterName)
+{
+    QSqlQuery qry(_db);
+
+    qry.prepare( "INSERT INTO zones (name)"
+                                      " VALUES (:name)" );
+
+    qry.bindValue(":name", rasterName);
+
+    if( !qry.exec() )
+    {
+        _error = qry.lastError().text();
+        return false;
+    }
+    else
+        return true;
+}
+
+bool Crit3DAggregationsDbHandler::getRasterName(QString* rasterName)
+{
+    QSqlQuery qry(_db);
+
+    qry.prepare( "SELECT * FROM zones" );
+
+    if( !qry.exec() )
+    {
+        _error = qry.lastError().text();
+        return false;
+    }
+    else
+    {
+        if (qry.next())
+        {
+            getValue(qry.value("name"), rasterName);
+            return true;
+        }
+        else
+        {
+            _error = "name not found";
+            return false;
+        }
+    }
+}
+
 bool Crit3DAggregationsDbHandler::getAggregationZonesReference(QString name, QString* filename, QString* field)
 {
 

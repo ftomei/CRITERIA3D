@@ -204,7 +204,8 @@ int CriteriaOutputProject::initializeProject(QString settingsFileName, QDate dat
 
     if (isLog)
     {
-        logger.setLog(path, projectName, addDateTimeLogFile);
+        QString fileName = projectName + "_" + operation;
+        logger.setLog(path, fileName, addDateTimeLogFile);
     }
 
     isProjectLoaded = true;
@@ -784,6 +785,12 @@ int CriteriaOutputProject::createAggregationFile()
 }
 
 
+int CriteriaOutputProject::createNetcdf()
+{
+    return CRIT1D_OK;
+}
+
+
 bool CriteriaOutputProject::convertShapeToNetcdf(Crit3DShapeHandler &shape, QString outputFileName, QString field, double cellSize)
 {
     if (! shape.getIsWGS84())
@@ -827,7 +834,7 @@ bool CriteriaOutputProject::convertShapeToNetcdf(Crit3DShapeHandler &shape, QStr
             {
                 gis::getRowColFromXY(*(myRaster.header), x, y, &utmRow, &utmCol);
                 float value = myRaster.getValueFromRowCol(utmRow, utmCol);
-                if (value != myRaster.header->flag)
+                if (int(value) != int(myRaster.header->flag))
                 {
                     latLonRaster.value[row][col] = value;
                 }
@@ -842,14 +849,18 @@ bool CriteriaOutputProject::convertShapeToNetcdf(Crit3DShapeHandler &shape, QStr
     if (! myNetCDF.writeGeoDimensions(latLonHeader))
     {
         projectError = "Error in write dimensions to netcdf.";
+        myNetCDF.close();
         return false;
     }
 
     if (! myNetCDF.writeData_NoTime(latLonRaster))
     {
         projectError = "Error in write data to netcdf.";
+        myNetCDF.close();
         return false;
     }
+
+    myNetCDF.close();
 
     return true;
 }

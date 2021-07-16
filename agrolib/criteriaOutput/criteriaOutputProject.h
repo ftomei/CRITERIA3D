@@ -46,6 +46,7 @@ public:
 
     QString path;
     QString projectName;
+    QString operation;
     QString configFileName;
     QString projectError;
     QString ucmFileName;
@@ -102,6 +103,7 @@ public:
     int createCsvFile();
     int createShapeFile();
     int createAggregationFile();
+    int createNetcdf();
     int createMaps();
 
     bool initializeCsvOutputFile();

@@ -754,7 +754,7 @@ bool NetCDFHandler::createNewFile(std::string fileName)
 {
     clear();
 
-    int status = nc_create(fileName.data(), NC_CLOBBER, &ncId);
+    int status = nc_create(fileName.data(), NC_CLOBBER|NC_NETCDF4, &ncId);
     return (status == NC_NOERR);
 }
 
@@ -787,6 +787,13 @@ bool NetCDFHandler::writeGeoDimensions(const gis::Crit3DGridHeader& latLonHeader
     varDimId[0] = idLat;
     varDimId[1] = idLon;
     status = nc_def_var (ncId, "var", NC_FLOAT, 2, varDimId, &(variables[0].id));
+    if (status != NC_NOERR) return false;
+
+    // compression
+    int shuffle = NC_SHUFFLE;
+    int deflate = 1;
+    int deflate_level = 1;
+    status = nc_def_var_deflate(ncId, variables[0].id, shuffle, deflate, deflate_level);
     if (status != NC_NOERR) return false;
 
     // attributes
