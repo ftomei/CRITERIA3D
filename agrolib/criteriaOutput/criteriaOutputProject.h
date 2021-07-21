@@ -35,6 +35,7 @@
 #define ERROR_OUTPUT_VARIABLES -60
 #define ERROR_CSVFILE -65
 #define ERROR_SHAPEFILE -70
+#define ERROR_NETCDF -75
 #define ERROR_ZONAL_STATISTICS_SHAPE -80
 #define ERROR_MISSING_GDAL -100
 
@@ -93,7 +94,7 @@ public:
 
     void initialize();
     void closeProject();
-    int initializeProject(QString settingsFileName, QDate dateComputation, bool isLog);
+    int initializeProject(QString settingsFileName, QString operation, QDate dateComputation, bool isLog);
     int initializeProjectDtx();
     int initializeProjectCsv();
 

@@ -812,7 +812,7 @@ float Crit3DMeteoPoint::getMeteoPointValueD(const Crit3DDate &myDate, meteoVaria
         if (! isEqual(obsDataD[i].tAvg, NODATA))
             return obsDataD[i].tAvg;
         else if (meteoSettings->getAutomaticTavg() && !isEqual(obsDataD[i].tMin, NODATA) && !isEqual(obsDataD[i].tMax, NODATA))
-            return ((obsDataD[i].tMin / obsDataD[i].tMax) / 2);
+            return ((obsDataD[i].tMin + obsDataD[i].tMax) / 2);
         else
             return NODATA;
     }

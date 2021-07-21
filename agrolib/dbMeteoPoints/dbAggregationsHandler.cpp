@@ -227,7 +227,7 @@ bool Crit3DAggregationsDbHandler::insertTmpAggr(QDate startDate, QDate endDate, 
         for (int zone = 1; zone <= nZones; zone++)
         {
             QString value = QString::number(aggregatedValues[day][zone-1], 'f', 1);
-            if (value != NODATA)
+            if (value != "nan")
             {
                 dateTimeList << (startDate.addDays(day)).toString("yyyy-MM-dd");
                 zoneList << zone;

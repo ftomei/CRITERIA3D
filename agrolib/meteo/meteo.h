@@ -31,6 +31,7 @@
     #define DEFAULT_AUTOMATIC_ET0HS true
     #define DDHEATING_THRESHOLD 20
     #define DDCOOLING_THRESHOLD 25
+    #define DDCOOLING_SUBTRACTION 21
 
     #define TABLE_METEO_POINTS "point_properties"
     #define FIELD_METEO_POINT "id_point"

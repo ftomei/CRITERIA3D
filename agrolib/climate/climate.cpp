@@ -1526,7 +1526,7 @@ bool elaborateDailyAggregatedVarFromDaily(meteoVariable myVar, Crit3DMeteoPoint 
                 res = 0;
                 if ( meteoPoint.obsDataD[index].tAvg > DDCOOLING_THRESHOLD)
                 {
-                    res = meteoPoint.obsDataD[index].tAvg - DDCOOLING_THRESHOLD;
+                    res = meteoPoint.obsDataD[index].tAvg - DDCOOLING_SUBTRACTION;
                 }
             }
             else
@@ -1538,7 +1538,7 @@ bool elaborateDailyAggregatedVarFromDaily(meteoVariable myVar, Crit3DMeteoPoint 
                     res = 0;
                     if ( meteoPoint.obsDataD[index].tAvg > DDCOOLING_THRESHOLD)
                     {
-                        res = meteoPoint.obsDataD[index].tAvg - DDCOOLING_THRESHOLD;
+                        res = meteoPoint.obsDataD[index].tAvg - DDCOOLING_SUBTRACTION;
                     }
                 }
                 else
